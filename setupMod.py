@@ -57,9 +57,28 @@ def change_xmakefile(text, config):
     text = add_configs(text, config)    
     return text
 
+def setup_structure(config):
+    folders = config.get("structure", {})
+    folders_to_mk = folders.get("folders", [])
+    files_to_tch = folders.get("files",[])
+
+    for folderName in folders_to_mk:
+        f_path = Path(folderName)
+        f_path.mkdir(parents=True, exist_ok=True)
+
+    for fileName in files_to_tch:
+        fileP = Path(fileName)
+        fileP.parent.mkdir(parents=True, exist_ok=True)
+        if not fileP.exists():
+            fileP.touch()
+        else:
+            print(f"skipped existing file: {fileName}")
 
 
 def main():
+
+    setup_structure(config)
+
     text = path.read_text(encoding="utf-8")
     text = change_xmakefile(text, config)
 
