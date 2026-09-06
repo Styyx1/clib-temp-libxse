@@ -1,3 +1,10 @@
+-- needed to build with msvc-wine
+if is_plat("windows") then
+    add_cxxflags("cl::/std:c++23preview", {force = true})
+else
+    set_languages("c++23")
+end
+
 -- include subprojects
 includes("lib/commonlibsse", "extern/styyx-utils")
 
@@ -9,8 +16,8 @@ local MOD_DESC = "PlaceHolder"
 set_project(MOD_NAME)
 set_version(MOD_VERSION)
 set_license("GPL-3.0")
-set_languages("c++23")
 set_warnings("allextra")
+set_encodings("utf-8")
 
 --{{ADDITIONAL CONFIGS}}--
 
